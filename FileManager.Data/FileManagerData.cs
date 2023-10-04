@@ -4,44 +4,44 @@ namespace FileManager.Data
 {
     public class FileManagerData
     {
-        private List<_File> files;
+        private List<Core.FileInfo> files;
         public FileManagerData()
         {
-            files = new List<_File>();
+            files = new List<Core.FileInfo>();
         }
 
         //Добавить файл в файл (добавляет файл в коллекцию файлов)
-        public void AddFile(_File file)
+        public void AddFile(Core.FileInfo file)
         {
             files.Add(file);
         }
 
         //извлекает все файлы
-        public List<_File> GetAllFiles()
+        public List<Core.FileInfo> GetAllFiles()
         {
             return files;
         }
 
         //удаление определенного файла
-        public void DeleteFile(_File file)
+        public void DeleteFile(Core.FileInfo file)
         {
             files.Remove(file);
         }
 
         //достает фйлы особого ывапывап
-        public List<_File> GetFilesByExtension(string extension)
+        public List<Core.FileInfo> GetFilesByExtension(string extension)
         {
             return files.FindAll(f => f.Extension == extension);
         }
 
         //поиск файлов созданных пользователем
-        public List<_File> GetFilesCreatedByUser(string user)
+        public List<Core.FileInfo> GetFilesCreatedByUser(string user)
         {
             return files.FindAll(f => f.CreatedBy == user);
         }
 
         //достает файлы измененные после срока
-        public List<_File> GetFilesModifiedAfterDate(DateTime date)
+        public List<Core.FileInfo> GetFilesModifiedAfterDate(DateTime date)
         {
             return files.FindAll(f => f.LastModified > date);
         }

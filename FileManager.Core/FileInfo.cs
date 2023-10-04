@@ -1,6 +1,6 @@
 ﻿namespace FileManager.Core
 {
-    public class _File
+    public class FileInfo
     {
         //имя
         public string Name { get; set; }

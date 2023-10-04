@@ -15,9 +15,9 @@ namespace FileManager.Logic
         //создать файл из предоставленного пути к файлу
         public void AddFile(string filePath, string createdBy)
         {
-            FileInfo fileInfo = new FileInfo(filePath);
+            System.IO.FileInfo fileInfo = new System.IO.FileInfo(filePath);
 
-            _File file = new _File()
+            Core.FileInfo file = new Core.FileInfo()
             {
                 Name = fileInfo.Name,
                 Path = fileInfo.FullName,
@@ -33,31 +33,31 @@ namespace FileManager.Logic
         }
 
         //достает все файлы из FileManagerData.
-        public List<_File> GetAllFiles()
+        public List<Core.FileInfo> GetAllFiles()
         {
             return data.GetAllFiles();
         }
 
         //удаляет определнный файл
-        public void DeleteFile(_File file)
+        public void DeleteFile(Core.FileInfo file)
         {
             data.DeleteFile(file);
         }
 
         //достает файлы нужным ываджп
-        public List<_File> GetFilesByExtension(string extension)
+        public List<Core.FileInfo> GetFilesByExtension(string extension)
         {
             return data.GetFilesByExtension(extension);
         }
 
         //достает файлы созданные пользователем
-        public List<_File> GetFilesCreatedByUser(string user)
+        public List<Core.FileInfo> GetFilesCreatedByUser(string user)
         {
             return data.GetFilesCreatedByUser(user);
         }
 
         //достает файлы измененные после срока
-        public List<_File> GetFilesModifiedAfterDate(DateTime date)
+        public List<Core.FileInfo> GetFilesModifiedAfterDate(DateTime date)
         {
             return data.GetFilesModifiedAfterDate(date);
         }
