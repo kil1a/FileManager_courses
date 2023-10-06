@@ -47,25 +47,26 @@ namespace FileManager
                 Console.WriteLine("---------------------------------------------------Файловый Менеджер---------------------------------------------------");
                 Console.WriteLine("----------------------------------------------------1.Добавить файл----------------------------------------------------");
                 Console.WriteLine("--------------------------------------------------2.Получить все файлы-------------------------------------------------");
-                Console.WriteLine("---------------------------------------------3.Получить файл по расширению---------------------------------------------");
-                Console.WriteLine("---------------------------------------------4.Посмотреть файл пользователя--------------------------------------------");
-                Console.WriteLine("----------------------------------5.Получить файл созданный после определенного времени--------------------------------");
-                Console.WriteLine("-----------------------------------------------------6.Удалить файл----------------------------------------------------");
+                Console.WriteLine("-----------------------------------------------------3.Удалить файл----------------------------------------------------");
+                Console.WriteLine("---------------------------------------------4.Получить файл по расширению---------------------------------------------");
+                Console.WriteLine("-----------------------------------------5.Закончить работу и выйти из менеджера---------------------------------------");
                 int bb = Convert.ToInt32(Console.ReadLine());
+                FileManagerLogic fileManager = new FileManagerLogic();
                 string filePath = null;
+                string destinationFolder = "E://ppap";
+                List<string> files = fileManager.GetAllFiles(destinationFolder);
                 switch (bb)
                 {
                     case 1:
-                        Console.Clear();
                         do
                         {
-                            Console.WriteLine("Введите путь к файлу, не забудьте добавить его разрешение: ");
+                            Console.WriteLine("Введите путь к файлу, не забудьте добавить его раcрешение: ");
                             filePath = Console.ReadLine();
                             if (File.Exists(filePath) == false) Console.WriteLine("Путь к файлу введен неверно!");
                         } while (File.Exists(filePath) == false);
-                        Console.WriteLine("Кто создал файл: ");
-                        string createdBy = Console.ReadLine();
-                        fileManagerLogic.AddFile(filePath, createdBy);
+
+
+                        fileManager.AddFile(filePath, destinationFolder);
                         Console.Clear();
                         Console.WriteLine("Успешно!\nДля выхода в меню нажмите любую клавишу");
                         Console.ReadLine();
@@ -74,10 +75,10 @@ namespace FileManager
 
                     case 2:
                         Console.Clear();
-                        Console.WriteLine("Все Файлы:");
-                        foreach (Core.FileInfo file in fileManagerLogic.GetAllFiles())
+                        Console.WriteLine("Все добавленные файлы:");
+                        foreach (string file in files)
                         {
-                            Console.WriteLine(file.Name);
+                            Console.WriteLine(file);
                         }
                         Console.WriteLine("Для выхода в меню нажмите любую клавишу");
                         Console.ReadLine();
@@ -86,42 +87,46 @@ namespace FileManager
 
                     case 3:
                         Console.Clear();
-                        Console.WriteLine("Введите разрешение файлов которые хотите вывести:");
-                        string extension = Console.ReadLine();
-                        Console.Clear();
-                        Console.WriteLine($"Все файлы с расширением \"{extension}\":");
-                        foreach (Core.FileInfo file in fileManagerLogic.GetFilesByExtension(extension))
+                        Console.WriteLine("Удаление Файла:");
+                        files = fileManager.GetAllFiles(destinationFolder);
+
+                        foreach (string file in files)
                         {
-                            Console.WriteLine(file.Name);
-                        }Console.WriteLine("Введите разрешение файлов которые хотите вывести:");
-                        Console.WriteLine("Для выхода в меню нажмите любую клавишу");
+                            Console.WriteLine(file);
+                        }
+
+                        Console.WriteLine("Выберите файл для удаления, не забудьте добавить его раcрешение:");
+                        string selectedFile = Console.ReadLine();
+                        fileManager.DeleteFile(destinationFolder, selectedFile);
+
                         Console.ReadLine();
                         Console.Clear();
                         break;
 
                     case 4:
                         Console.Clear();
-                        Console.WriteLine("Введите имя пользователя чьи файлы вы хотите получить: ");
-                        string user = Console.ReadLine();
-                        Console.WriteLine($"Все файлы созданные {user}:");
-                        foreach (Core.FileInfo file in fileManagerLogic.GetFilesCreatedByUser(user))
-                        {
-                            Console.WriteLine(file.Name);
-                        }
+                        OutputManager outputManager = new OutputManager();
+                        outputManager.DisplayFiles(files);
 
+                        Console.WriteLine("Выберите расширение файла:");
+                        string selectedExtension = Console.ReadLine();
 
+                        List<string> selectedFiles = fileManager.GetFilesByExtension(destinationFolder, selectedExtension);
 
-
-
-
-
-
-
-
-
-
+                        outputManager.DisplaySelectedFile(selectedExtension, selectedFiles);
+                        Console.WriteLine("Для выхода в меню нажмите любую клавишу");
+                        Console.ReadLine();
+                        Console.Clear();
                         break;
-                    
+
+                    case 5:
+                        Environment.Exit(0);
+                        break;
+                    default:
+                        Console.Clear();
+                        Console.WriteLine("Неверный выбор.");
+                        break;
+
 
                 }
 

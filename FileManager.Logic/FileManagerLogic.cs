@@ -5,61 +5,55 @@ namespace FileManager.Logic
 {
     public class FileManagerLogic
     {
-        private FileManagerData data;
-
-        public FileManagerLogic()
-        {
-            data = new FileManagerData();
-        }
+       
 
         //создать файл из предоставленного пути к файлу
-        public void AddFile(string filePath, string createdBy)
+        public void AddFile(string filePath, string destinationFolder)
         {
-            System.IO.FileInfo fileInfo = new System.IO.FileInfo(filePath);
+            // Получаем имя файла из полного пути
+            string fileName = Path.GetFileName(filePath);
 
-            Core.FileInfo file = new Core.FileInfo()
-            {
-                Name = fileInfo.Name,
-                Path = fileInfo.FullName,
-                Size = fileInfo.Length,
-                IsReadOnly = fileInfo.IsReadOnly,
-                Extension = fileInfo.Extension,
-                CreatedBy = createdBy,
-                CreatedDate = fileInfo.CreationTime,
-                LastModified = fileInfo.LastWriteTime
-            };
+            // Создаем новый путь для сохранения файла
+            string newFilePath = Path.Combine(destinationFolder, fileName);
 
-            data.AddFile(file);
+            // Копируем файл в новую папку
+            File.Copy(filePath, newFilePath);
         }
 
         //достает все файлы из FileManagerData.
-        public List<Core.FileInfo> GetAllFiles()
+        public List<string> GetAllFiles(string destinationFolder)
         {
-            return data.GetAllFiles();
+            List<string> files = new List<string>();
+
+            // Получаем все файлы из выбранной папки
+            files = Directory.GetFiles(destinationFolder).ToList();
+
+            return files;
         }
 
         //удаляет определнный файл
-        public void DeleteFile(Core.FileInfo file)
+        public void DeleteFile(string selectedFolder, string selectedFile)
         {
-            data.DeleteFile(file);
+            string filePath = Path.Combine(selectedFolder, selectedFile);
+
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+                Console.WriteLine("Файл успешно удален.");
+            }
+            else
+            {
+                Console.WriteLine("Файл не найден.");
+            }
         }
 
         //достает файлы нужным ываджп
-        public List<Core.FileInfo> GetFilesByExtension(string extension)
+        public List<string> GetFilesByExtension(string selectedFolder, string selectedExtension)
         {
-            return data.GetFilesByExtension(extension);
+            string[] files = Directory.GetFiles(selectedFolder, "*." + selectedExtension);
+
+            return files.ToList();
         }
 
-        //достает файлы созданные пользователем
-        public List<Core.FileInfo> GetFilesCreatedByUser(string user)
-        {
-            return data.GetFilesCreatedByUser(user);
-        }
-
-        //достает файлы измененные после срока
-        public List<Core.FileInfo> GetFilesModifiedAfterDate(DateTime date)
-        {
-            return data.GetFilesModifiedAfterDate(date);
-        }
     }
 }
