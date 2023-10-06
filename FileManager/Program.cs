@@ -8,40 +8,6 @@ namespace FileManager
         static void Main(string[] args)
         {
             FileManagerLogic fileManagerLogic = new FileManagerLogic();
-
-           
-
-            ////получить по значению после .
-            //string extension = ".txt";
-            //Console.WriteLine($"Files with extension {extension}:");
-            //foreach (_File file in fileManagerLogic.GetFilesByExtension(extension))
-            //{
-            //    Console.WriteLine(file.Name);
-            //}
-
-            ////получить файл пользователя
-            //string user = "абоба";
-            //Console.WriteLine($"Files created by {user}:");
-            //foreach (_File file in fileManagerLogic.GetFilesCreatedByUser(user))
-            //{
-            //    Console.WriteLine(file.Name);
-            //}
-
-            ////получить после 
-            //DateTime date = new DateTime(2022, 1, 1);
-            //Console.WriteLine($"Files modified after {date}:");
-            //foreach (_File file in fileManagerLogic.GetFilesModifiedAfterDate(date))
-            //{
-            //    Console.WriteLine(file.Name);
-            //}
-
-            ////удаление
-            //_File fileToDelete = fileManagerLogic.GetAllFiles()[0];
-            //fileManagerLogic.DeleteFile(fileToDelete);
-
-            //Console.ReadLine();
-
-
             while (true)
             {
                 Console.WriteLine("---------------------------------------------------Файловый Менеджер---------------------------------------------------");
